@@ -1,0 +1,73 @@
+using System;
+
+namespace QuantityMeasurementApp.Domain
+{
+    /// <summary>
+    /// Supports Feet, Inches, Yards, Centimeters
+    /// </summary>
+    public class Length
+    {
+        private readonly double value;
+        private readonly LengthUnit unit;
+
+        /// Conversion factor is defined relative to BASE UNIT (Inches).
+        public enum LengthUnit
+        {
+            FEET,
+            INCH,
+            YARD,
+            CENTIMETERS
+        }
+
+        private double GetConversionFactor()
+        {
+            return unit switch
+            {
+                LengthUnit.FEET => 12,
+                LengthUnit.INCH => 1,
+                LengthUnit.YARD => 36,
+                LengthUnit.CENTIMETERS => 0.393701,
+                _ => throw new InvalidOperationException("Unsupported unit")
+            };
+        }
+
+        public Length(double value, LengthUnit unit)
+        {
+            this.value = value;
+            this.unit = unit;
+        }
+
+        // Converts the current length to base unit (Inches).
+        private double ConvertToBaseUnit()
+        {
+            return value * GetConversionFactor();
+        }
+
+        /// Compares two Length objects after converting to base unit
+        public bool Compare(Length thatLength)
+        {
+            if (thatLength == null)
+                return false;
+
+            return this.ConvertToBaseUnit() == thatLength.ConvertToBaseUnit();
+        }
+
+
+        /// Overriding Equals method to follow equality contract.
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(this, obj))
+                return true;
+
+            if (obj == null || obj.GetType() != typeof(Length))
+                return false;
+
+            return Compare((Length)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return ConvertToBaseUnit().GetHashCode();
+        }
+    }
+}
