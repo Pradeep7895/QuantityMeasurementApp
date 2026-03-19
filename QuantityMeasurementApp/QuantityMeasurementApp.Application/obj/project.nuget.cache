@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "AzPMhPHx5UE=",
+  "success": true,
+  "projectFilePath": "D:\\QuantityMeasurementApp\\QuantityMeasurementApp\\QuantityMeasurementApp.Application\\QuantityMeasurementApp.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.5\\microsoft.extensions.dependencyinjection.10.0.5.nupkg.sha512",
+    "C:\\Users\\ASUS\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.5\\microsoft.extensions.dependencyinjection.abstractions.10.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}
