@@ -26,7 +26,7 @@ public class QuantityHistoryRepository : IQuantityHistoryRepository
     {
         string key = "history";
 
-        // 🔥 STEP 1: CHECK REDIS
+        // STEP 1: CHECK REDIS
         var cached = _cache.Get(key);
 
         if (!string.IsNullOrEmpty(cached))
@@ -36,11 +36,11 @@ public class QuantityHistoryRepository : IQuantityHistoryRepository
                 .Deserialize<List<QuantityHistoryRecord>>(cached);
         }
 
-        // 🔥 STEP 2: GET FROM DB
+        // STEP 2: GET FROM DB
         Console.WriteLine("From DB");
         var data = _context.QuantityHistory.ToList();
 
-        // 🔥 STEP 3: SAVE IN REDIS
+        // STEP 3: SAVE IN REDIS
         var json = System.Text.Json.JsonSerializer.Serialize(data);
         _cache.Set(key, json);
 
