@@ -62,21 +62,20 @@ namespace QuantityMeasurementApp.Service.Services
 
         private string GenerateToken(User user)
         {
-            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
-
             var claims = new[]
             {
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(JwtRegisteredClaimNames.Sub,   user.Id.ToString()),
+                new Claim(ClaimTypes.Email,              user.Email),       
+                new Claim(JwtRegisteredClaimNames.Jti,   Guid.NewGuid().ToString())
             };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(2),
-                signingCredentials: new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256
-                )
+                expires: DateTime.UtcNow.AddHours(8),
+                signingCredentials: creds
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);

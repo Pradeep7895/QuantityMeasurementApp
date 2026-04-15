@@ -15,18 +15,18 @@ primary
 lastDtbSucceeded
 
 [properties]
-AssemblyName=QuantityMeasurementApp.WebAPI
-CommandLineArgsForDesignTimeEvaluation=-langversion:14.0 -define:TRACE
+AssemblyName=QuantityMeasurementApp.Tests
+CommandLineArgsForDesignTimeEvaluation=-langversion:latest -define:TRACE
 CompilerGeneratedFilesOutputPath=
 MaxSupportedLangVersion=14.0
 ProjectAssetsFile=<PATH>obj/project.assets.json
-RootNamespace=QuantityMeasurementApp.WebAPI
+RootNamespace=QuantityMeasurementApp.Tests
 RunAnalyzers=
 RunAnalyzersDuringLiveAnalysis=
 SolutionPath=*Undefined*
 TargetFrameworkIdentifier=.NETCoreApp
-TargetPath=<PATH>bin/Debug/net10.0/QuantityMeasurementApp.WebAPI.dll
-TargetRefPath=<PATH>obj/Debug/net10.0/ref/QuantityMeasurementApp.WebAPI.dll
+TargetPath=<PATH>bin/Debug/net10.0/QuantityMeasurementApp.Tests.dll
+TargetRefPath=<PATH>obj/Debug/net10.0/ref/QuantityMeasurementApp.Tests.dll
 TemporaryDependencyNodeTargetIdentifier=net10.0
 
 [commandLineArguments]
@@ -41,37 +41,39 @@ TemporaryDependencyNodeTargetIdentifier=net10.0
 /define:TRACE;DEBUG;NET;NET10_0;NETCOREAPP;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NET10_0_OR_GREATER;NETCOREAPP1_0_OR_GREATER;NETCOREAPP1_1_OR_GREATER;NETCOREAPP2_0_OR_GREATER;NETCOREAPP2_1_OR_GREATER;NETCOREAPP2_2_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER
 /highentropyva+
 /nullable:enable
-/features:"InterceptorsNamespaces=;Microsoft.AspNetCore.OpenApi.Generated;;Microsoft.Extensions.Validation.Generated"
+/features:"InterceptorsNamespaces=;Microsoft.Extensions.Validation.Generated"
 /debug+
 /debug:portable
 /filealign:512
 /optimize-
-/out:obj\Debug\net10.0\QuantityMeasurementApp.WebAPI.dll
-/refout:obj\Debug\net10.0\refint\QuantityMeasurementApp.WebAPI.dll
-/target:exe
+/out:obj\Debug\net10.0\QuantityMeasurementApp.Tests.dll
+/refout:obj\Debug\net10.0\refint\QuantityMeasurementApp.Tests.dll
+/target:library
 /warnaserror-
 /utf8output
 /deterministic+
-/langversion:14.0
-/features:use-roslyn-tokenizer=true
+/langversion:latest
 /warnaserror+:NU1605,SYSLIB0011
 
 [sourceFiles]
-Controllers/
- AuthController.cs
- QuantitiesController.cs
-Middleware/GlobalExceptionMiddleware.cs
 obj/Debug/net10.0/
  .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
- QuantityMeasurementApp.WebAPI.AssemblyInfo.cs
- QuantityMeasurementApp.WebAPI.GlobalUsings.g.cs
-Program.cs
+ QuantityMeasurementApp.Tests.AssemblyInfo.cs
+ QuantityMeasurementApp.Tests.GlobalUsings.g.cs
+TestsUC17.cs/
+ ApiIntegrationTests.cs
+ QuantityHistoryRepositoryTests.cs
+ QuantityServiceTests.cs
+ RedisCacheTests.cs
+ ValidationServiceTests.cs
 
 [metadataReferences]
 ../
+ QuantityMeasurementApp.Application/obj/Debug/net10.0/ref/QuantityMeasurementApp.Application.dll
  QuantityMeasurementApp.Model/obj/Debug/net10.0/ref/QuantityMeasurementApp.Model.dll
  QuantityMeasurementApp.Repository/obj/Debug/net10.0/ref/QuantityMeasurementApp.Repository.dll
  QuantityMeasurementApp.Service/obj/Debug/net10.0/ref/QuantityMeasurementApp.Service.dll
+ QuantityMeasurementApp.WebAPI/obj/Debug/net10.0/ref/QuantityMeasurementApp.WebAPI.dll
 <DOTNET>/packs/Microsoft.AspNetCore.App.Ref/10.0.6/ref/net10.0/
  Microsoft.AspNetCore.Antiforgery.dll
  Microsoft.AspNetCore.Authentication.Abstractions.dll
@@ -385,16 +387,23 @@ Program.cs
  azure.core/1.47.1/lib/net8.0/Azure.Core.dll
  azure.identity/1.14.2/lib/net8.0/Azure.Identity.dll
  bcrypt.net-next/4.1.0/lib/net10.0/BCrypt.Net-Next.dll
+ castle.core/5.1.1/lib/net6.0/Castle.Core.dll
+ fluentassertions/8.9.0/lib/net6.0/FluentAssertions.dll
+ microsoft.applicationinsights/2.23.0/lib/netstandard2.0/Microsoft.ApplicationInsights.dll
  microsoft.aspnetcore.authentication.jwtbearer/10.0.5/lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
  microsoft.aspnetcore.identity.entityframeworkcore/10.0.5/lib/net10.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+ microsoft.aspnetcore.mvc.testing/10.0.5/lib/net10.0/Microsoft.AspNetCore.Mvc.Testing.dll
  microsoft.aspnetcore.openapi/10.0.4/lib/net10.0/Microsoft.AspNetCore.OpenApi.dll
+ microsoft.aspnetcore.testhost/10.0.5/lib/net10.0/Microsoft.AspNetCore.TestHost.dll
  microsoft.bcl.asyncinterfaces/8.0.0/lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll
  microsoft.bcl.cryptography/9.0.4/lib/net9.0/Microsoft.Bcl.Cryptography.dll
  microsoft.data.sqlclient/6.1.1/ref/net9.0/Microsoft.Data.SqlClient.dll
  microsoft.entityframeworkcore.abstractions/10.0.5/lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+ microsoft.entityframeworkcore.inmemory/10.0.5/lib/net10.0/Microsoft.EntityFrameworkCore.InMemory.dll
  microsoft.entityframeworkcore.relational/10.0.5/lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll
  microsoft.entityframeworkcore.sqlserver/10.0.5/lib/net10.0/Microsoft.EntityFrameworkCore.SqlServer.dll
  microsoft.entityframeworkcore/10.0.5/lib/net10.0/Microsoft.EntityFrameworkCore.dll
+ microsoft.extensions.dependencymodel/10.0.5/lib/net10.0/Microsoft.Extensions.DependencyModel.dll
  microsoft.identity.client.extensions.msal/4.73.1/lib/net8.0/Microsoft.Identity.Client.Extensions.Msal.dll
  microsoft.identity.client/4.73.1/lib/net8.0/Microsoft.Identity.Client.dll
  microsoft.identitymodel.abstractions/8.17.0/lib/net10.0/Microsoft.IdentityModel.Abstractions.dll
@@ -405,6 +414,19 @@ Program.cs
  microsoft.identitymodel.tokens/8.17.0/lib/net10.0/Microsoft.IdentityModel.Tokens.dll
  microsoft.openapi/2.4.1/lib/net8.0/Microsoft.OpenApi.dll
  microsoft.sqlserver.server/1.0.0/lib/netstandard2.0/Microsoft.SqlServer.Server.dll
+ microsoft.testing.extensions.telemetry/2.1.0/lib/net9.0/Microsoft.Testing.Extensions.Telemetry.dll
+ microsoft.testing.extensions.trxreport.abstractions/2.1.0/lib/net9.0/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll
+ microsoft.testing.extensions.vstestbridge/2.1.0/lib/net9.0/Microsoft.Testing.Extensions.VSTestBridge.dll
+ microsoft.testing.platform.msbuild/2.1.0/lib/net9.0/Microsoft.Testing.Extensions.MSBuild.dll
+ microsoft.testing.platform/2.1.0/lib/net9.0/Microsoft.Testing.Platform.dll
+ microsoft.testplatform.objectmodel/18.0.1/lib/net8.0/
+  Microsoft.TestPlatform.CoreUtilities.dll
+  Microsoft.TestPlatform.PlatformAbstractions.dll
+  Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
+ moq/4.20.72/lib/net6.0/Moq.dll
+ mstest.testframework/4.1.0/
+  buildTransitive/net9.0/MSTest.TestFramework.Extensions.dll
+  lib/net9.0/MSTest.TestFramework.dll
  nlog.extensions.logging/6.1.2/lib/net10.0/NLog.Extensions.Logging.dll
  nlog.web.aspnetcore/6.1.2/lib/net10.0/NLog.Web.AspNetCore.dll
  nlog/6.1.1/lib/netstandard2.1/NLog.dll
@@ -436,24 +458,18 @@ Program.cs
  Microsoft.Interop.SourceGeneration.dll
  System.Text.Json.SourceGeneration.dll
  System.Text.RegularExpressions.Generator.dll
-<DOTNET>/sdk/10.0.106/Sdks/Microsoft.NET.Sdk.Razor/source-generators/
- Microsoft.AspNetCore.Razor.Utilities.Shared.dll
- Microsoft.CodeAnalysis.Razor.Compiler.dll
- Microsoft.Extensions.ObjectPool.dll
-<DOTNET>/sdk/10.0.106/Sdks/Microsoft.NET.Sdk.Web/analyzers/cs/
- Microsoft.AspNetCore.Analyzers.dll
- Microsoft.AspNetCore.Mvc.Analyzers.dll
 <DOTNET>/sdk/10.0.106/Sdks/Microsoft.NET.Sdk/analyzers/
  Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll
  Microsoft.CodeAnalysis.NetAnalyzers.dll
 <NUGET>/
  microsoft.aspnetcore.openapi/10.0.4/analyzers/dotnet/cs/Microsoft.AspNetCore.OpenApi.SourceGenerators.dll
- microsoft.codeanalysis.analyzers/3.11.0/analyzers/dotnet/cs/
-  Microsoft.CodeAnalysis.Analyzers.dll
-  Microsoft.CodeAnalysis.CSharp.Analyzers.dll
  microsoft.entityframeworkcore.analyzers/10.0.5/analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll
+ mstest.analyzers/4.1.0/analyzers/dotnet/cs/
+  MSTest.Analyzers.CodeFixes.dll
+  MSTest.Analyzers.dll
  system.clientmodel/1.5.1/analyzers/dotnet/cs/System.ClientModel.SourceGeneration.dll
 
 [analyzerConfigFiles]
 <DOTNET>/sdk/10.0.106/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_default.globalconfig
-obj/Debug/net10.0/QuantityMeasurementApp.WebAPI.GeneratedMSBuildEditorConfig.editorconfig
+<NUGET>/mstest.analyzers/4.1.0/globalconfigs/mstest-default.globalconfig
+obj/Debug/net10.0/QuantityMeasurementApp.Tests.GeneratedMSBuildEditorConfig.editorconfig

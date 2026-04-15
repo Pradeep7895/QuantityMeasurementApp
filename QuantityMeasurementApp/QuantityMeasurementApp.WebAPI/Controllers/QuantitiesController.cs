@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using QuantityMeasurementApp.Service.Interfaces;
 using QuantityMeasurementApp.Model.DTOs;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -41,15 +42,32 @@ public class QuantitiesController : ControllerBase
         return Ok(_service.Divide(req.Q1, req.Q2));
     }
 
+    [Authorize]
     [HttpGet("history")]
     public IActionResult GetHistory()
     {
-        return Ok(_service.GetHistory());
+        // Read the email claim from the JWT token
+        var email = User.FindFirst(ClaimTypes.Email)?.Value
+                ?? User.FindFirst("email")?.Value;
+
+        if (string.IsNullOrEmpty(email))
+            return Unauthorized("Could not identify user from token.");
+
+        // Pass email to your service so it filters by user
+        var result = _service.GetHistory(email);
+        return Ok(result);
     }
 
+    [Authorize]
     [HttpGet("HistoryCount")]
     public IActionResult GetHistoryCount()
     {
-        return Ok(_service.GetHistoryCount());
+        var email = User.FindFirst(ClaimTypes.Email)?.Value
+                ?? User.FindFirst("email")?.Value;
+
+        if (string.IsNullOrEmpty(email))
+            return Unauthorized("Could not identify user from token.");
+
+        return Ok(_service.GetHistoryCount(email));
     }
 }

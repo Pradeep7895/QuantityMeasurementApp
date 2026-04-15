@@ -17,22 +17,17 @@ namespace QuantityMeasurementApp.Service.Interfaces
         bool Validate(QuantityDTO quantity);
 
         // History Methods 
-        List<QuantityHistoryRecord> GetHistory();
+        List<QuantityHistoryRecord> GetHistory(string UserEmail);
         List<QuantityHistoryRecord> GetHistoryByCategory(string category);
         List<QuantityHistoryRecord> GetHistoryByOperationType(string operationType);
         QuantityHistoryRecord? GetHistoryRecordById(int id);
         bool DeleteHistoryRecord(int id);
         int DeleteAllHistoryRecords();
-        int GetHistoryCount();
+        int GetHistoryCount(string UserEmail);
         void ClearHistory();
 
         // Cache Management
         void ClearCache();
         void RefreshCache();
-
-        // Statistics
-        void DisplayStatistics();
-        Dictionary<string, int> GetOperationStatistics();
-        Dictionary<string, int> GetCategoryStatistics();
     }
 }

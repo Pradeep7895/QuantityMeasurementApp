@@ -5,6 +5,8 @@ using QuantityMeasurementApp.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace QuantityMeasurementApp.Service.Services
 {
@@ -16,18 +18,22 @@ namespace QuantityMeasurementApp.Service.Services
         private readonly IValidationService _validationService;
         private readonly IQuantityHistoryRepository _repository;
 
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
         public QuantityService(
             IConversionService conversionService,
             IArithmeticService arithmeticService,
             IEqualityService equalityService,
             IValidationService validationService,
-            IQuantityHistoryRepository repository)
+            IQuantityHistoryRepository repository,
+            IHttpContextAccessor httpContextAccessor)
         {
             _conversionService = conversionService;
             _arithmeticService = arithmeticService;
             _equalityService = equalityService;
             _validationService = validationService;
             _repository = repository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -52,6 +58,7 @@ namespace QuantityMeasurementApp.Service.Services
                 TargetUnit = targetUnit,
                 ResultValue = result.Value,
                 ResultUnit = result.Unit,
+                CreatedBy = GetCurrentUserEmail(),
                 CreatedAt = DateTime.Now
             });
 
@@ -81,6 +88,7 @@ namespace QuantityMeasurementApp.Service.Services
                 SecondUnit = q2.Unit,
                 ResultValue = result ? 1 : 0,
                 ResultUnit = "Boolean",
+                CreatedBy = GetCurrentUserEmail(),
                 CreatedAt = DateTime.Now
             });
 
@@ -95,7 +103,7 @@ namespace QuantityMeasurementApp.Service.Services
             if (!_validationService.CanPerformArithmetic(q1, q2))
                 throw new InvalidOperationException("Cannot add these quantities");
 
-            return _arithmeticService.Add(q1, q2);  
+            return _arithmeticService.Add(q1, q2);
         }
 
         /// <summary>
@@ -122,6 +130,7 @@ namespace QuantityMeasurementApp.Service.Services
                 TargetUnit = targetUnit,
                 ResultValue = result.Value,
                 ResultUnit = result.Unit,
+                CreatedBy = GetCurrentUserEmail(),
                 CreatedAt = DateTime.Now
             });
 
@@ -166,6 +175,7 @@ namespace QuantityMeasurementApp.Service.Services
                 TargetUnit = targetUnit,
                 ResultValue = result.Value,
                 ResultUnit = result.Unit,
+                CreatedBy = GetCurrentUserEmail(),
                 CreatedAt = DateTime.Now
             });
 
@@ -195,6 +205,7 @@ namespace QuantityMeasurementApp.Service.Services
                 SecondUnit = q2.Unit,
                 ResultValue = result,
                 ResultUnit = "Ratio",
+                CreatedBy = GetCurrentUserEmail(),
                 CreatedAt = DateTime.Now
             });
 
@@ -212,11 +223,22 @@ namespace QuantityMeasurementApp.Service.Services
         //  HISTORY METHODS
 
         /// <summary>
-        /// Gets all history records from repository
+        /// GFilter records to only this user's history
         /// </summary>
-        public List<QuantityHistoryRecord> GetHistory()
+        public List<QuantityHistoryRecord> GetHistory(string userEmail)
         {
-            return _repository.GetAllRecords();
+            return _repository.GetAllRecords()
+                .Where(r => r.CreatedBy == userEmail)
+                .OrderBy(r => r.CreatedAt)
+                .ToList();
+        }
+
+        // Helper to get current user's email (null if guest)
+        private string GetCurrentUserEmail()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            return user?.FindFirst(ClaimTypes.Email)?.Value
+                ?? user?.FindFirst("email")?.Value;
         }
 
         /// <summary>
@@ -274,9 +296,10 @@ namespace QuantityMeasurementApp.Service.Services
         /// <summary>
         /// Gets total count of records
         /// </summary>
-        public int GetHistoryCount()
+        public int GetHistoryCount(string userEmail)
         {
-            return _repository.GetRecordCount();
+            return _repository.GetAllRecords()
+            .Count(r => r.CreatedBy == userEmail);
         }
 
         /// <summary>
@@ -303,53 +326,6 @@ namespace QuantityMeasurementApp.Service.Services
         public void RefreshCache()
         {
             _repository.RefreshCache();
-        }
-        /// <summary>
-        /// Displays repository statistics
-        /// </summary>
-        public void DisplayStatistics()
-        {
-            int totalRecords = GetHistoryCount();
-            var recentRecords = GetHistory();
-
-            Console.WriteLine("\n=== Repository Statistics ===");
-            Console.WriteLine($"Total Records: {totalRecords}");
-            Console.WriteLine($"Cache Status: Redis cache is active");
-
-            if (recentRecords.Any())
-            {
-                Console.WriteLine("\nLast 5 Operations:");
-                foreach (var record in recentRecords.Take(5))
-                {
-                    Console.WriteLine($"  [{record.Id}] {record.OperationType}: {record.FirstValue} {record.FirstUnit} => {record.ResultValue} {record.ResultUnit} ({record.CreatedAt:HH:mm:ss})");
-                }
-            }
-            else
-            {
-                Console.WriteLine("\nNo records found.");
-            }
-        }
-
-        /// <summary>
-        /// Gets summary statistics by operation type
-        /// </summary>
-        public Dictionary<string, int> GetOperationStatistics()
-        {
-            var records = GetHistory();
-            return records
-                .GroupBy(r => r.OperationType)
-                .ToDictionary(g => g.Key, g => g.Count());
-        }
-
-        /// <summary>
-        /// Gets summary statistics by category
-        /// </summary>
-        public Dictionary<string, int> GetCategoryStatistics()
-        {
-            var records = GetHistory();
-            return records
-                .GroupBy(r => r.Category)
-                .ToDictionary(g => g.Key, g => g.Count());
         }
     }
 }
